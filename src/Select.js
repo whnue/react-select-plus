@@ -1061,12 +1061,18 @@ class Select extends React.Component {
     return null;
   }
 
+  renderActions (options, valueArray, focusedOption) {
+  	if (!this.props.actions) { return null }
+  	return this.props.actions(options, valueArray, focusedOption)
+  }
+
   renderOuter (options, valueArray, focusedOption) {
     let Dropdown = this.props.dropdownComponent;
     let menu = this.renderMenu(options, valueArray, focusedOption);
     if (!menu) {
       return null;
     }
+    let actions = this.renderActions(options, valueArray, focusedOption);
 
     return (
       <Dropdown>
@@ -1077,6 +1083,7 @@ class Select extends React.Component {
               onMouseDown={this.handleMouseDownOnMenu}>
             {menu}
           </div>
+          {!!actions && <div ref={ref => this.actions = ref} className="Select-actions">{actions}</div>}
         </div>
       </Dropdown>
     );
@@ -1156,6 +1163,7 @@ Select.propTypes = {
   'aria-describedby': PropTypes.string, // HTML ID(s) of element(s) that should be used to describe this input (for assistive tech)
   'aria-label': PropTypes.string,       // Aria label (for assistive tech)
   'aria-labelledby': PropTypes.string,  // HTML ID of an element that should be used as the label (for assistive tech)
+  actions: PropTypes.func,							// Renders actions below menu
   addLabelText: PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
   arrowRenderer: PropTypes.func,        // Create drop-down caret element
   autoBlur: PropTypes.bool,             // automatically blur the component when an option is selected

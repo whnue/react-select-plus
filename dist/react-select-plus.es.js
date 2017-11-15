@@ -1867,6 +1867,14 @@ var Select$1 = function (_React$Component) {
       return null;
     }
   }, {
+    key: 'renderActions',
+    value: function renderActions(options, valueArray, focusedOption) {
+      if (!this.props.actions) {
+        return null;
+      }
+      return this.props.actions(options, valueArray, focusedOption);
+    }
+  }, {
     key: 'renderOuter',
     value: function renderOuter(options, valueArray, focusedOption) {
       var _this8 = this;
@@ -1876,14 +1884,15 @@ var Select$1 = function (_React$Component) {
       if (!menu) {
         return null;
       }
+      var actions = this.renderActions(options, valueArray, focusedOption);
 
       return React.createElement(
         Dropdown$$1,
         null,
         React.createElement(
           'div',
-          { ref: function ref(_ref6) {
-              return _this8.menuContainer = _ref6;
+          { ref: function ref(_ref7) {
+              return _this8.menuContainer = _ref7;
             }, className: 'Select-menu-outer', style: this.props.menuContainerStyle },
           React.createElement(
             'div',
@@ -1894,6 +1903,13 @@ var Select$1 = function (_React$Component) {
               onScroll: this.handleMenuScroll,
               onMouseDown: this.handleMouseDownOnMenu },
             menu
+          ),
+          !!actions && React.createElement(
+            'div',
+            { ref: function ref(_ref6) {
+                return _this8.actions = _ref6;
+              }, className: 'Select-actions' },
+            actions
           )
         )
       );
@@ -1940,16 +1956,16 @@ var Select$1 = function (_React$Component) {
 
       return React.createElement(
         'div',
-        { ref: function ref(_ref8) {
-            return _this9.wrapper = _ref8;
+        { ref: function ref(_ref9) {
+            return _this9.wrapper = _ref9;
           },
           className: className,
           style: this.props.wrapperStyle },
         this.renderHiddenField(valueArray),
         React.createElement(
           'div',
-          { ref: function ref(_ref7) {
-              return _this9.control = _ref7;
+          { ref: function ref(_ref8) {
+              return _this9.control = _ref8;
             },
             className: 'Select-control',
             style: this.props.style,
@@ -1983,6 +1999,7 @@ Select$1.propTypes = {
   'aria-describedby': PropTypes.string, // HTML ID(s) of element(s) that should be used to describe this input (for assistive tech)
   'aria-label': PropTypes.string, // Aria label (for assistive tech)
   'aria-labelledby': PropTypes.string, // HTML ID of an element that should be used as the label (for assistive tech)
+  actions: PropTypes.func, // Renders actions below menu
   addLabelText: PropTypes.string, // placeholder displayed when you want to add a label on a multi-value input
   arrowRenderer: PropTypes.func, // Create drop-down caret element
   autoBlur: PropTypes.bool, // automatically blur the component when an option is selected
